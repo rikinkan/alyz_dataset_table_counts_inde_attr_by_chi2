@@ -90,7 +90,8 @@ if not is_ait_launch:
 
 if not is_ait_launch:
     requirements_generator.add_package('pandas', '2.0.3')
-    requirements_generator.add_package('scipy', '1.7.0')
+    requirements_generator.add_package('scipy', '1.9.0')
+    requirements_generator.add_package('matplotlib','3.6.0')
 
 
 # #### #3-3 [uneditable]
@@ -113,7 +114,6 @@ if not is_ait_launch:
 
 
 # import if you need modules cell
-
 import pandas as pd
 from scipy.stats import chi2_contingency
 from scipy.stats import chi2
@@ -365,7 +365,7 @@ def extract_categorical_attributes(table_data_df, target_attribute, excluded_att
     
 
 
-# In[ ]:
+# In[13]:
 
 
 @log(logger)
@@ -376,7 +376,7 @@ def chi_square_result(results_df, file_name, file_path: str=None) -> str:
     return file_path
 
 
-# In[ ]:
+# In[14]:
 
 
 @log(logger)
@@ -394,7 +394,7 @@ def plot_result(result_df, file_name, file_path: str=None) -> None:
     return file_name
 
 
-# In[ ]:
+# In[15]:
 
 
 @log(logger)
@@ -407,7 +407,7 @@ def move_log(file_path: str=None) -> str:
 
 # [required]
 
-# In[ ]:
+# In[16]:
 
 
 @log(logger)
@@ -445,7 +445,7 @@ def main() -> None:
 
 # [uneditable]
 
-# In[ ]:
+# In[17]:
 
 
 if __name__ == '__main__':
@@ -456,7 +456,7 @@ if __name__ == '__main__':
 
 # [required]
 
-# In[ ]:
+# In[18]:
 
 
 ait_owner='AIST'
@@ -467,7 +467,7 @@ ait_creation_year='2024'
 
 # [uneditable] 
 
-# In[ ]:
+# In[19]:
 
 
 if not is_ait_launch:
