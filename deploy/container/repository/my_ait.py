@@ -391,7 +391,7 @@ def plot_result(result_df, file_name, file_path: str=None) -> None:
 
     file_path = file_path +  file_name
     plt.savefig(file_path, bbox_inches='tight')
-    return file_name
+    return file_path
 
 
 # In[15]:
