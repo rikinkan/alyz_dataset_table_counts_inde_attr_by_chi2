@@ -1,0 +1,76 @@
+{
+  "name": "alyz_dataset_table_counts_inde_attr_by_chi2",
+  "description": "データの妥当性を評価するため、CSV形式のデータセットについて、ラベルと各属性の独立性をカイ二乗統計量を用いて算出し、独立性の高い属性が含まれている場合、不要な属性(ラベルと関係性がなく判定に関与できない属性)を用いたデータを使っていないかを確認すること。確認対象はカテゴリ属性のみにすること。",
+  "source_repository": "https://github.com/aistairc/qunomon/tree/main/ait_repository/ait/alyz_dataset_table_counts_inde_attr_by_chi2",
+  "version": "0.2",
+  "quality": "https://ait-hub.pj.aist.go.jp/ait-hub/api/0.0.1/qualityDimensions/機械学習品質マネジメントガイドライン第三版/A-2データ設計の十分性",
+  "keywords": [
+    [
+      "Chi-Squared",
+      "recode count"
+    ]
+  ],
+  "references": [],
+  "licenses": [],
+  "inventories": [
+    {
+      "name": "Table_data",
+      "type": "dataset",
+      "description": "分析対象の表データ(csv)\n1列目は属性名\n連続値カラムはAIT内部でカイ二乗検定の対象から自動的に除外する",
+      "requirement": {
+        "format": [
+          "csv"
+        ]
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "Target_attribute",
+      "type": "str",
+      "description": "予測するラベル属性",
+      "default_val": ""
+    },
+    {
+      "name": "Excluded_attributes",
+      "type": "str",
+      "description": "分析対象外の属性の指定(カンマ区切りで複数指定可能)",
+      "default_val": ""
+    },
+    {
+      "name": "p-value",
+      "type": "float",
+      "description": "カイ二乗統計量の閾値",
+      "default_val": "0.05"
+    }
+  ],
+  "report": {
+    "measures": [
+      {
+        "name": "IndependentAttrCount",
+        "type": "int",
+        "description": "カイ二乗統計量を元に独立性の高い属性の数(抽出規則：カイ二乗統計量の計算結果 <= p-value)",
+        "structure": "single",
+        "min": "0"
+      }
+    ],
+    "resources": [
+      {
+        "name": "AllAttrResult",
+        "type": "table",
+        "description": "すべて属性のカイ二乗統計量の計算結果リスト"
+      },
+      {
+        "name": "DistributionPlot",
+        "type": "picture",
+        "description": "独立性の高い属性の分布プロット"
+      }
+    ]
+  },
+  "downloads": [
+    {
+      "name": "Log",
+      "description": "AIT実行ログ"
+    }
+  ]
+}
