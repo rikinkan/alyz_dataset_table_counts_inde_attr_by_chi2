@@ -150,7 +150,7 @@ if not is_ait_launch:
     manifest_genenerator = AITManifestGenerator(current_dir)
     manifest_genenerator.set_ait_name('alyz_dataset_table_counts_inde_attr_by_chi2')
     manifest_genenerator.set_ait_description('データの妥当性を評価するため、CSV形式のデータセットについて、ラベルと各属性の独立性をカイ二乗統計量を用いて算出し、独立性の高い属性が含まれている場合、不要な属性(ラベルと関係性がなく判定に関与できない属性)を用いたデータを使っていないかを確認すること。確認対象はカテゴリ属性のみにすること。')
-    manifest_genenerator.set_ait_source_repository('https://github.com/aistairc/qunomon/tree/main/ait_repository/ait/alyz_dataset_table_counts_inde_attr_by_chi2')
+    manifest_genenerator.set_ait_source_repository('https://github.com/aistairc/Qunomon_AIT_alyz_dataset_table_counts_inde_attr_by_chi2')
     manifest_genenerator.set_ait_version('0.2')
     manifest_genenerator.add_ait_licenses('Apache License Version 2.0')
     manifest_genenerator.add_ait_keywords('Chi-Squared')
@@ -178,12 +178,11 @@ if not is_ait_launch:
                                           description='カイ二乗統計量を元に独立性の高い属性の数(抽出規則：カイ二乗統計量の計算結果 <= p-value)', 
                                           structure='single',
                                           min='0')
-    manifest_genenerator.add_ait_resources(name='AllAttrResult', 
-                                           type_='table', 
-                                           description='すべて属性のカイ二乗統計量の計算結果リスト')
     manifest_genenerator.add_ait_resources(name='DistributionPlot', 
                                            type_='picture', 
                                            description='独立性の高い属性の分布プロット')
+    manifest_genenerator.add_ait_downloads(name='AllAttrResult', 
+                                           description='すべて属性のカイ二乗統計量の計算結果リスト')
     manifest_genenerator.add_ait_downloads(name='Log', 
                                            description='AIT実行ログ')
     manifest_path = manifest_genenerator.write()
@@ -200,7 +199,7 @@ if not is_ait_launch:
     from ait_sdk.common.files.ait_input_generator import AITInputGenerator
     input_generator = AITInputGenerator(manifest_path)
     input_generator.add_ait_inventories(name='Table_data',
-                                        value='data_test_0.csv')
+                                        value='data.csv')
     input_generator.set_ait_params(name='Target_attribute',
                                    value='Survived')
     input_generator.set_ait_params(name='Excluded_attributes',
@@ -335,7 +334,7 @@ def calc_independent_attr_count(table_data_df, target_attribute, excluded_attrib
 @log(logger)
 def extract_categorical_attributes(table_data_df, target_attribute, excluded_attributes):
     
-    print('\ntable_data_columns:', table_data_df.columns)
+    print('\n table_data_columns:', table_data_df.columns)
     
     # Select only columns that meet criteria for categorical attributes
     categorical_columns = [col for col in table_data_df.columns 
@@ -343,37 +342,34 @@ def extract_categorical_attributes(table_data_df, target_attribute, excluded_att
                                or 
                                table_data_df[col].dtype == 'int') 
                            and table_data_df[col].nunique() <= 50]
-    print('\ncategorical_columns:', categorical_columns)
+    print('\n categorical_columns:', categorical_columns)
 
     # Extract only categorical attribute columns
     category_df = table_data_df[categorical_columns]
     
-    # exclude target attribute
+    # Excluded attributes array
+    excluded_attribute_arr = []
+    
+    # Target attribute
     if target_attribute in categorical_columns:
-        category_df = category_df.drop(target_attribute, axis=1)
+        excluded_attribute_arr.append(target_attribute)
 
-    # Delete excluded attributes
+    # Excluded attributes
     if not(excluded_attributes == '' or excluded_attributes == 'None'):
         columns_to_exclude = excluded_attributes.split(',')
-        for c in columns_to_exclude:
-            if c in categorical_columns:
-                category_df = category_df.drop(columns_to_exclude, axis=1)
+        for column in columns_to_exclude:
+            if column in categorical_columns:
+                excluded_attribute_arr.append(column)
+            else:
+                print('\n Excluded attribute not present in dataset：', column)
+                
+    # Delete attributes            
+    category_df = category_df.drop(excluded_attribute_arr, axis=1)
 
-    print('\nAfter excluded attributes:\n', category_df)
+    print('\n After excluded attributes:\n', category_df)
     
     return category_df 
     
-
-
-# In[13]:
-
-
-@log(logger)
-@resources(ait_output, path_helper, 'AllAttrResult')
-def chi_square_result(results_df, file_name, file_path: str=None) -> str:    
-    file_path = file_path + file_name
-    results_df.to_csv(file_path, index = False )
-    return file_path
 
 
 # In[14]:
@@ -391,6 +387,17 @@ def plot_result(result_df, file_name, file_path: str=None) -> None:
 
     file_path = file_path +  file_name
     plt.savefig(file_path, bbox_inches='tight')
+    return file_path
+
+
+# In[ ]:
+
+
+@log(logger)
+@downloads(ait_output, path_helper, 'AllAttrResult')
+def chi_square_result(results_df, file_name, file_path: str=None) -> str:    
+    file_path = file_path + file_name
+    results_df.to_csv(file_path, index = False )
     return file_path
 
 

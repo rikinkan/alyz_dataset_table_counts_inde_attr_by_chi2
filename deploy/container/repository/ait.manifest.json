@@ -1,7 +1,7 @@
 {
   "name": "alyz_dataset_table_counts_inde_attr_by_chi2",
   "description": "データの妥当性を評価するため、CSV形式のデータセットについて、ラベルと各属性の独立性をカイ二乗統計量を用いて算出し、独立性の高い属性が含まれている場合、不要な属性(ラベルと関係性がなく判定に関与できない属性)を用いたデータを使っていないかを確認すること。確認対象はカテゴリ属性のみにすること。",
-  "source_repository": "https://github.com/aistairc/qunomon/tree/main/ait_repository/ait/alyz_dataset_table_counts_inde_attr_by_chi2",
+  "source_repository": "https://github.com/aistairc/Qunomon_AIT_alyz_dataset_table_counts_inde_attr_by_chi2",
   "version": "0.2",
   "quality": "https://ait-hub.pj.aist.go.jp/ait-hub/api/0.0.1/qualityDimensions/機械学習品質マネジメントガイドライン第三版/A-2データ設計の十分性",
   "keywords": [
@@ -56,11 +56,6 @@
     ],
     "resources": [
       {
-        "name": "AllAttrResult",
-        "type": "table",
-        "description": "すべて属性のカイ二乗統計量の計算結果リスト"
-      },
-      {
         "name": "DistributionPlot",
         "type": "picture",
         "description": "独立性の高い属性の分布プロット"
@@ -68,6 +63,10 @@
     ]
   },
   "downloads": [
+    {
+      "name": "AllAttrResult",
+      "description": "すべて属性のカイ二乗統計量の計算結果リスト"
+    },
     {
       "name": "Log",
       "description": "AIT実行ログ"
