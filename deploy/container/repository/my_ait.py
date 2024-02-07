@@ -38,7 +38,7 @@
 
 # [uneditable]
 
-# In[1]:
+# In[ ]:
 
 
 # Determine whether to start AIT or jupyter by startup argument
@@ -372,7 +372,7 @@ def extract_categorical_attributes(table_data_df, target_attribute, excluded_att
     
 
 
-# In[14]:
+# In[13]:
 
 
 @log(logger)
@@ -390,15 +390,13 @@ def plot_result(result_df, file_name, file_path: str=None) -> None:
     return file_path
 
 
-# In[ ]:
+# In[14]:
 
 
 @log(logger)
-@downloads(ait_output, path_helper, 'AllAttrResult')
-def chi_square_result(results_df, file_name, file_path: str=None) -> str:    
-    file_path = file_path + file_name
-    results_df.to_csv(file_path, index = False )
-    return file_path
+@downloads(ait_output, path_helper, 'AllAttrResult', 'AllAttrResult.csv')
+def chi_square_result(results_df, file_path: str=None) -> str:    
+    results_df.to_csv(file_path)
 
 
 # In[15]:
@@ -441,9 +439,9 @@ def main() -> None:
     print('independent_attr_count:', count)
     print('results_df:\n', results_df)
     
-    chi_square_result(results_df, 'chi_square_result.csv')
     plot_result(results_df, 'chi_square_result_plot.jpg')
-
+    
+    chi_square_result(results_df)
     move_log()
     
 
