@@ -38,7 +38,7 @@
 
 # [uneditable]
 
-# In[ ]:
+# In[1]:
 
 
 # Determine whether to start AIT or jupyter by startup argument
@@ -151,7 +151,7 @@ if not is_ait_launch:
     manifest_genenerator.set_ait_name('alyz_dataset_table_counts_inde_attr_by_chi2')
     manifest_genenerator.set_ait_description('データの妥当性を評価するため、CSV形式のデータセットについて、ラベルと各属性の独立性をカイ二乗統計量を用いて算出し、独立性の高い属性が含まれている場合、不要な属性(ラベルと関係性がなく判定に関与できない属性)を用いたデータを使っていないかを確認すること。確認対象はカテゴリ属性のみにすること。')
     manifest_genenerator.set_ait_source_repository('https://github.com/aistairc/Qunomon_AIT_alyz_dataset_table_counts_inde_attr_by_chi2')
-    manifest_genenerator.set_ait_version('0.2')
+    manifest_genenerator.set_ait_version('1.0')
     manifest_genenerator.add_ait_licenses('Apache License Version 2.0')
     manifest_genenerator.add_ait_keywords('Chi-Squared')
     manifest_genenerator.add_ait_keywords('recode count')
